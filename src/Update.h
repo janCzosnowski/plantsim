@@ -1,0 +1,2 @@
+void updateSeeds();
+void updatePlants();

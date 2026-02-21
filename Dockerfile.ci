@@ -1,0 +1,33 @@
+FROM swidzinski/cmake2:base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    pkg-config \
+    libx11-dev \
+    libxrandr-dev \
+    libxinerama-dev \
+    libxcursor-dev \
+    libxi-dev \
+    libgl1-mesa-dev \
+    libdrm-dev \
+    zlib1g-dev \
+    liblzma-dev \
+    imagemagick \
+    ca-certificates \
+    gnupg \
+    nasm \
+    file \
+    g++-mingw-w64-x86-64 \
+    mingw-w64-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+COPY . .
+RUN chmod +x scripts/*.sh || true
+
+CMD ["bash", "scripts/ci-build.sh"]

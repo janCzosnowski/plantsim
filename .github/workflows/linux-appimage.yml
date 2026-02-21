@@ -1,0 +1,61 @@
+name: PlantSim CI Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Container
+        run: |
+          docker build -t plantsim-ci -f Dockerfile.ci .
+
+      - name: Execute Build Scripts
+        run: |
+          mkdir -p dist/linux dist/windows
+          docker run --rm \
+            -v "$PWD/dist:/workspace/dist" \
+            plantsim-ci \
+            bash scripts/ci-build.sh
+
+      - name: Package Windows Release
+        run: |
+          sudo apt-get install -y zip
+          cd dist/windows
+          zip -r ../PlantSim-Windows.zip .
+          cd ../..
+
+      - name: Upload Linux Artifact (Actions Tab)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PlantSim-Linux-x64
+          path: dist/linux/*.AppImage
+
+      - name: Upload Windows Artifact (Actions Tab)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PlantSim-Windows-x64
+          path: dist/windows/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/linux/*.AppImage
+            dist/PlantSim-Windows.zip
+          name: PlantSim ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

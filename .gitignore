@@ -1,0 +1,10 @@
+build/
+dist/
+libs/
+AppDir/
+obj/
+objs/
+out/
+out_win/
+*.AppImage
+*.exe

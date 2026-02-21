@@ -1,0 +1,10 @@
+extern void drawCellProber();
+extern void drawInfo();
+extern void drawPlantEnergyOverlay();
+extern void drawSolarOverlay();
+extern void drawSettingsMenu();
+extern void drawPlantMenu();
+extern void drawSeedMenu();
+extern void openGenomeMenu();
+extern void drawGenomeMenu();
+extern void drawStartScreen();
