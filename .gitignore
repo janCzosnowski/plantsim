@@ -8,3 +8,4 @@ out/
 out_win/
 *.AppImage
 *.exe
+.ccls-cache/
