@@ -79,7 +79,7 @@ If you encounter issues with a prebuilt binary, consider building from source us
 | --------------------------------------------- | --------------------------------------|
 | [raylib](https://www.raylib.com/)             | Graphics, window, input handling      |
 | [ImGui](https://github.com/ocornut/imgui)     | GUI overlay rendering                 |
-| [rlImGui](https://github.com/corlane/rlImGui) | Raylib + ImGui integration            |
+| [rlImGui](https://github.com/raylib-extras/rlImGui.git) | Raylib + ImGui integration            |
 | [FFmpeg](https://ffmpeg.org/)                 | (LINUX ONLY): video asset processing  |
 
 All libraries are automatically cloned and built by the scripts.
@@ -125,8 +125,8 @@ sudo apt install -y \
 #### Build
 
 ```
-git clone https://github.com/AlikornSause/PlantSim
-cd PlantSim
+git clone https://github.com/AlikornSause/plantsim
+cd plantsim
 ./scripts/build-linux.sh
 ```
 
@@ -158,9 +158,9 @@ sudo apt install -y \
 
 #### Build
 
-```bash
-git clone https://github.com/AlikornSause/PlantSim
-cd PlantSimTest
+```
+git clone https://github.com/AlikornSause/plantsim
+cd plantsim
 ./scripts/build-windows.sh
 ```
 
@@ -184,13 +184,13 @@ To ensure consistent, reproducible builds across environments, use the provided 
 
 #### Build Docker Image
 
-```bash
+```
 docker build -t plantsim-ci -f Dockerfile.ci .
 ```
 
 #### Run CI Build
 
-```bash
+```
 docker run --rm -v "$PWD:/workspace" plantsim-ci bash scripts/ci-build.sh
 ```
 
