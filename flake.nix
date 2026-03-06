@@ -18,7 +18,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        ffmpegmin= pkgs.ffmpeg.override {
+        ffmpegMinimal= pkgs.ffmpeg.override {
           withDocumentation = false;
           withManPages = false;
           withNetwork = false;
@@ -37,33 +37,6 @@
           withVulkan = false;
         };
 
-        ffmpegMinimal = pkgs.ffmpeg.overrideAttrs (old: {
-
-        configureFlags = [
-      "--enable-static"
-        "--enable-pic"
-        "--disable-shared"
-        "--disable-programs"
-        "--disable-network"
-        "--enable-avcodec"
-        "--enable-avformat"
-        "--enable-avutil"
-        "--enable-swscale"
-        "--enable-swresample"
-        "--enable-decoder=h264"
-        "--enable-parser=h264"
-        "--enable-demuxer=mov,mp4"
-        "--enable-protocol=file"
-        "--disable-vaapi"
-        "--disable-vdpau"
-        "--disable-vulkan"
-        "--disable-hwaccels"
-        "--disable-bzlib"
-         ];
-         dontDisableStatic = true;
-          doCheck = false;
-          outputs = ["out"];
-        });
 
         raylibStatic = pkgs.raylib.overrideAttrs (old: {
           cmakeFlags = old.cmakeFlags ++ [
@@ -89,7 +62,7 @@
 
           buildInputs = [
             raylibStatic
-            ffmpegmin
+            ffmpegMinimal
             pkgs.glfw
             pkgs.glew
             pkgs.xz

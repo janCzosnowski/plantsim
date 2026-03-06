@@ -14,6 +14,7 @@
 * [Prebuilt Binaries](#prebuilt-binaries)
 * [Build Instructions](#build-instructions)
 * [Running the Simulation](#running-the-simulation)
+* [Running with Nix](#running-with-nix)
 * [Controls](#controls)
 * [Genome Basics](#genome-basics)
 * [Plant Mechanics](#plant-mechanics)
@@ -221,6 +222,42 @@ cd dist/windows
 plantsim.exe
 ```
 ---
+
+## Running with Nix
+### Building
+```
+  nix build github:AlikornSause/plantsim
+```
+### Running
+```
+  nix run github:AlikornSause/plantsim
+```
+
+### Adding to environment
+  **If you use flakes you can add this repository to your inputs, and then use the package in your environment.systemPackages like this:**
+  ```nix
+    {
+      inputs = {
+        ...
+        plantsim.url = "github:AlikornSause/plantsim";
+      };
+      outputs = {nixpkgs, plantsim, ...}: {
+        ...
+        nixosConfigurations.host = nixpkgs.lib.nixosSystem {
+          ...
+          environment.systemPackages = [
+            ...
+            plantsim.packages.${nixpkgs.system}.default
+          ];
+        };
+      };
+    }
+  ```
+  **Then you can rebuild your system**
+  ```bash
+    sudo nixos-rebuild switch --flake /path/to/flake/directory#host
+  ```
+
 
 ## Controls
 
